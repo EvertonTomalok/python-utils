@@ -1,3 +1,5 @@
+import os
+
 from threading import Semaphore, Thread
 from typing import Any, Callable, List, Tuple, Union
 
@@ -5,9 +7,11 @@ import nest_asyncio
 
 nest_asyncio.apply()
 
+CPU_NUMBER = os.cpu_count()
+
 
 class TaskAsWorkers:
-    def __init__(self, function: Callable, num_workers: int = 1):
+    def __init__(self, function: Callable, num_workers: int = CPU_NUMBER):
         self.function = function
         self.threads = []
 
@@ -29,7 +33,7 @@ class TaskAsWorkers:
 
 
 class TaskParallelRunner:
-    def __init__(self, list_function: List[Callable], max_workers: int = 3):
+    def __init__(self, list_function: List[Callable], max_workers: int = CPU_NUMBER):
         """
         It receives a list of functions to be called in parallel.
         :param list_function: List[callable]
@@ -62,7 +66,7 @@ class TaskWithArgsParallelRunner:
         self,
         function: Callable,
         list_args: List[Union[List[Any], Tuple[Any]]],
-        max_workers: int = 3,
+        max_workers: int = CPU_NUMBER,
     ):
         """
         It receives a function to be called in parallel with a list of
