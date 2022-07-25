@@ -31,8 +31,17 @@ class LoopRunner:
                 attrs=["bold"],
             )
         )
-        self.stopped = True
-
+        if not self.stopped:
+            self.stopped = True
+            return
+        
+        colored(
+            "Forced exiting x( ",
+            "red",
+            attrs=["bold"],
+        )
+        sys.exit(0)
+            
 
 def create_loop_runner_with_signal_to_stop() -> LoopRunner:
     loop_runner = LoopRunner()
